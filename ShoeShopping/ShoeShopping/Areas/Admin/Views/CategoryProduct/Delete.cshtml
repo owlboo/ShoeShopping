@@ -1,0 +1,30 @@
+﻿@model ShoeShopping.Models.CategoryProduct
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<br /><br />
+<h2 class="text-info">Delete Category</h2>
+<form method="post" asp-action="Edit">
+    <div class="p-4 border rounded">
+        <div class="text-danger" asp-validation-summary="ModelOnly">
+            <input hidden asp-for="Id" />
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Name"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Name"disabled class="form-control" />
+            </div>
+            <span asp-validation-for="Name"  class="table-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger" asp-route-id="@Model.Id" value="Delete" />
+            <a asp-action="Index" class="btn btn-success">Back To List</a>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
