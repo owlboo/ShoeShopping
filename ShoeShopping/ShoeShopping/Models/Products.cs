@@ -19,6 +19,7 @@ namespace ShoeShopping.Models
         public string Material { get; set; }
         public string Origin { get; set; }
         public string Gender { get; set; }
+        public int Size { get; set; }
         public string Image { get; set; }
         [Display(Name ="Category")]
         public int CategoryProductId { get; set; }

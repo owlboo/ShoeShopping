@@ -1,0 +1,122 @@
+﻿@page
+@model YourPurchaseModel
+@{
+    int sum = 0;
+}
+<h4>@ViewData["Title"]</h4>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="simple.money.format.js"></script>
+</head>
+<form method="get">
+    <div>
+        <table class="table table-striped border">
+            <tr class="table-info">
+                <th style="text-align:center" width="200%">
+                    Customer Name
+                </th>
+                <th style="text-align:center">
+                    Bill Name
+                </th>
+                <th style="text-align:center">
+                    Total Price
+                </th>
+                <th style="text-align:center" width="150%">
+                    Bill Date
+                </th>
+                <th style="text-align:center">
+                    Customer Email
+                </th>
+                <th style="text-align:center">
+                    Customer Phone
+                </th>
+                <th style="text-align:center">
+                    Shipping Adress
+                </th>
+                <th style="text-align:center">
+                    Status
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model.Bills)
+            {
+                <tr>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.Users.Name)
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.TotalPrice)
+                        @{ sum += Convert.ToInt32(item.TotalPrice);}
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.BillDate)
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.Users.Email)
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.Users.PhoneNumber)
+                    </td>
+                    <td style="text-align:center">
+                        @Html.DisplayFor(m => item.Users.ShippingAddress)
+                    </td>
+                    @if (item.IsPaid)
+                    {
+                        <td style="text-align:center">Puchased</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">Pending</td>
+                    }
+                    <td>
+                        <a type="button" class="btn btn-success" href="@Url.Action("Details/"+Model)"><i class="fas fa-clipboard-list"></i></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</form>
+<div class="row">
+    <div class="col-4">
+        <label class="text-primary">Total:</label>
+    </div>
+    <div class="col-4">
+        <label class="text-secondary" value="" id="money"><b>@sum VND</b></label>
+    </div>
+    <div class="col-4">
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var d = document.getElementById("Date").value.to;
+            var splitDatas = "";
+            if (d.indexOf(" ") > 0) {
+                splitDatas = d.Split(" ");
+            } else {
+                splitDatas = " ";
+            }
+
+            var date = splitDatas[0];
+            var time = splitDatas[1].substring(0, 5);
+            if (time.slice(-1) == ":") {
+                time = time.substring(0, time.length - 1);
+            }
+            var amPm = splitDatas[2];
+            $("#Date").attr("value", date + " " + time + " " + amPm);
+        })
+
+        $(document).ready(function () {
+            var money = document.getElementById("money").value;
+            var datas = " ";
+            datas = money.Split("000");
+        })
+        $('#money').simpleMoneyFormat();
+    </script>
+}

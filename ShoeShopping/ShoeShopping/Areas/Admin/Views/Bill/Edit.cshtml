@@ -1,0 +1,76 @@
+﻿@model ShoeShopping.Models.ViewModels.BillDetailsViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-info">Confirm Purchase</h2>
+<br /><br />
+      
+      <form method="post" enctype="multipart/form-data">
+          <div class="container">
+              <div class="row">
+                  <div class="col-6">
+                      <h2 class="text-info">Bill Info</h2>
+                      <div class="container border border-secondary rounded" style="padding:15px;">
+                          <input hidden asp-for="Bills.Id" />
+                          <div class="form-group row">
+                              <div class="col-4">
+                                  Bill Name:
+                              </div>
+                              <div class="col-8">
+                                  <input asp-for="Bills.Name" class="form-control" disabled />
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <div class="col-4">
+                                  Bill Date:
+                              </div>
+                              <div class="col-8">
+                                  <input asp-for="Bills.BillDate" class="form-control" disabled />
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <div class="col-4">
+                                  Total Price:
+                              </div>
+                              <div class="col-8">
+                                  <input asp-for="Bills.TotalPrice" class="form-control" disabled />
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <div class="col-4">
+                                  Is Purchase:
+                              </div>
+                              <div class="col-8">
+                                  <input asp-for="Bills.IsPaid" type="checkbox" class="form-control" />
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <partial name="~/Views/Shared/_BillCustomerInformation.cshtml" model="Model.Users" />
+                  </div>
+
+              </div>
+
+
+              <div class="row">
+                  <partial name="~/Views/Shared/_BillProductDetails.cshtml" model="Model.Products" />
+              </div>
+
+              <br /><br />
+
+              <div class="form-group row justify-content-center">
+                  <input type="submit" class="btn btn-success" value="Submit" />
+              </div>
+          </div>
+          
+      </form>
+
+
+
+
+
+

@@ -1,4 +1,51 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ShoeShopping.Models.Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br /><br />
+      <div class="row">
+          @foreach (var product in Model)
+          {
+              <div class="col-4">
+                  <div class="card mb-4">
+                      <div class="card-header text-center">
+                          <h4 class="font-weight-normal my-0">
+                              <label style="font-size:15px; color:black; text-align:center"><b>@product.Name</b></label>
+                          </h4>
+                      </div>
+                      @if (product.Discount > 0)
+                      {
+                          <img class="card-img-top" style="height:20%;width:20%;margin-left:250px;" src="~/images/img_456356.png" alt="Card Image" />
+                          <img class="card-img-top" style="height:50%;width:50%;margin-left:25%" src="@product.Image" alt="Card Image" />
+                      }
+                      else
+                      {
+                          <img class="card-img-top" style="height:10%;width:11%;" src="~/images/329958.jpg" alt="Card Image" />
+                          <img class="card-img-top" style="height:50%;width:50%;margin-left:25%;" src="@product.Image" alt="Card Image" />
+                      }
+
+
+                      <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div class="btn-group">
+                                  @if (product.Discount > 0)
+                                  {
+                                      <label style="font-size:15px; color: red;"><strike>@product.Price VNĐ</strike></label>
+                                      <label style="font-size:15px; color: black;margin-left:10px">@product.New_Price VNĐ</label>
+                                  }
+                                  else
+                                  {
+                                      <label style="font-size:15px; color: black;">@product.Price VNĐ</label>
+                                  }
+
+                              </div>
+                              <a asp-action="Details" asp-controller="Home" class="btn btn-default btn-outline-info" asp-route-id="@product.Id"><label style="font-size:15px; text-align:center">View Details</label></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          }
+
+      </div>
+

@@ -11,5 +11,8 @@ namespace ShoeShopping.Ultility
         public const string ImageFolder = @"images\ProductImage";
         public const string AdminEndUser = "Admin";
         public const string SuperAdminEndUser = "Super Admin";
+        public const string CustomerUser = "Customer User";
+        public string[] role = new string[] { "Customer User", "Admin" };
+        
     }
 }

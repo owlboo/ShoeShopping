@@ -1,0 +1,58 @@
+﻿@model ShoeShopping.Models.Bills
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<h4 class="text-success">
+    Bill Details
+</h4>
+<div style="height:100px; background-color:aliceblue;" class="container-fluid">
+    <div class="col-12">
+        <div class="row" style="padding-top:10px;">
+            <div class="col-2">
+                Bill Name
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.Name" readonly class="form-control" />
+            </div>
+            <div class="col-2">
+
+            </div>
+
+            <div class="col-2">
+                Date
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.BillDate" readonly class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12">
+        <div class="row" style="padding-top:10px;">
+            <div class="col-2">
+                Total Price
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.TotalPrice" readonly class="form-control" />
+            </div>
+            <div class="col-2">
+
+            </div>
+            <div class="col-2">
+                <label>Status</label>
+            </div>
+            <div class="col-3">
+                @if (Model.IsPaid)
+                {
+                    <input readonly class="form-control" value="Paid" />
+                }
+                else
+                {
+                    <input readonly class="form-control" value="Pending" />
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>

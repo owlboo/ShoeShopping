@@ -1,0 +1,18 @@
+﻿@model ShoeShopping.Models.ViewModels.ShoppingCartViewModel
+@{
+    ViewData["Title"] = "BillConfirmation";
+}
+
+<br />
+<h2 class="text-info">Bill Confirmation</h2>
+<div class="form-text">
+    Your Bill has been submitted. Please check your information carefully before you decide to purchase. If any changes, visit to your profile to adjust before you confirm to purchase !!
+   
+</div>
+<br />
+<div>
+    <partial name="~/Views/Shared/_BillInformtaionDetails.cshtml" model="Model.Bills" />
+    <partial name="~/Views/Shared/_BillProductDetails.cshtml" model="Model.Products" />
+</div>
+
+

@@ -16,5 +16,8 @@ namespace ShoeShopping.Data
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<ProductTags> ProductTags { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<Bills> Bills { get; set; }
+        public DbSet<ProductSelectedForBill> ProductSelectedForBills { get; set; }
+        public DbSet<ApplicationUsers> ApplicationUsers { get; set; }
     }
 }

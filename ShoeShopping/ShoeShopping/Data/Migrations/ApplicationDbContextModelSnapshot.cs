@@ -73,6 +73,9 @@ namespace ShoeShopping.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -112,6 +115,8 @@ namespace ShoeShopping.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -136,11 +141,9 @@ namespace ShoeShopping.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -171,17 +174,41 @@ namespace ShoeShopping.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ShoeShopping.Models.Bills", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("BillDate");
+
+                    b.Property<DateTime>("BillTime");
+
+                    b.Property<bool>("IsPaid");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<double>("TotalPrice");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("ShoeShopping.Models.CategoryProduct", b =>
@@ -229,6 +256,8 @@ namespace ShoeShopping.Data.Migrations
 
                     b.Property<int>("ProductTagId");
 
+                    b.Property<int>("Size");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryProductId");
@@ -236,6 +265,27 @@ namespace ShoeShopping.Data.Migrations
                     b.HasIndex("ProductTagId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ShoeShopping.Models.ProductSelectedForBill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BillId");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSelectedForBills");
                 });
 
             modelBuilder.Entity("ShoeShopping.Models.ProductTags", b =>
@@ -250,6 +300,21 @@ namespace ShoeShopping.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductTags");
+                });
+
+            modelBuilder.Entity("ShoeShopping.Models.ApplicationUsers", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ShippingAddress");
+
+                    b.ToTable("ApplicationUsers");
+
+                    b.HasDiscriminator().HasValue("ApplicationUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -297,6 +362,13 @@ namespace ShoeShopping.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ShoeShopping.Models.Bills", b =>
+                {
+                    b.HasOne("ShoeShopping.Models.ApplicationUsers", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("ShoeShopping.Models.Products", b =>
                 {
                     b.HasOne("ShoeShopping.Models.CategoryProduct", "CategoryProducts")
@@ -307,6 +379,19 @@ namespace ShoeShopping.Data.Migrations
                     b.HasOne("ShoeShopping.Models.ProductTags", "ProductTags")
                         .WithMany()
                         .HasForeignKey("ProductTagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ShoeShopping.Models.ProductSelectedForBill", b =>
+                {
+                    b.HasOne("ShoeShopping.Models.Bills", "Bills")
+                        .WithMany()
+                        .HasForeignKey("BillId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ShoeShopping.Models.Products", "Products")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
